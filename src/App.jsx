@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
 import Data from "./Services/Ahmed";
 import Content from "./Components/Content";
+import {BsSearch} from 'react-icons/bs'
+
 function App() {
+
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState([]);
-
   const [search, setSearch] = useState("");
+  const [Show, setShow] = useState(false)
 
   useEffect(() => {
     Data.getAll().then((R) => setCountries(R));
@@ -20,15 +23,17 @@ function App() {
   };
 
   return (
-    <div className='flex  w-screen h-screen justify-center items-center bg-gradient-to-r from-violet-500 to-fuchsia-500 selection:bg-pink-200'>
-      <div className='w-1/4 h-3/5 rounded-lg border-2 border-black text-white bg-slate-400 overflow-scroll p-4 min-w-fit'>
-        <div className='flex px-9 pb-5 justify-center'>
-          <input
-            className=' w-60 h-10 p-2 border-2 rounded-full focus:border-blue-400 border-rose-800 text-black'
+    <div className='flex w-screen h-screen justify-center items-center  bg-blue-950 selection:bg-pink-200'>
+      <div className='w-1/4 rounded-lg text-black bg-white overflow-scroll p-4 min-w-fit shadow-2xl'>
+        {!Show && <span className="flex justify-end m-2 "><button onClick={()=>setShow(!Show)} className="border-2 rounded-full p-2"><BsSearch/></button></span>}
+        <div className='flex px-9 justify-center'>
+          {Show && <input
+            className=' w-60 h-10 my-2 p-2 border-2 rounded-full focus:border-blue-400 border-rose-800 text-black'
             value={search}
             onChange={Filter}
-            placeholder="Search"
-          />
+            on={()=>setShow(!Show)}
+            placeholder="Enter Your Location"
+          />}
         </div>
         <Content country={country} setCountry={setCountry} />
       </div>

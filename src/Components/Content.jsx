@@ -1,20 +1,23 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import {BsWind,BsDroplet} from 'react-icons/bs'
+
+
 const Content = ({ country, setCountry }) => {
-  if (country.length > 10 || country.length == 0) {
-    return <p>Too many matches, specify another filter</p>;
-  } else if (country.length > 1) {
-    return (
-      <div>
-        {country.map((p, i) => (
-          <div key={i}>
-            {p.name.common}{" "}
-            <button onClick={() => setCountry([p])}>Show</button>{" "}
-          </div>
-        ))}
-      </div>
-    );
+
+  if (country.length > 3 || country.length == 0) {
+    return null
+  } else if (country.length > 1 && country.length <= 3) {
+      return (
+        <div>
+          {country.map((p, i) => (
+            <div key={i}>
+              {p.name.common}{" "}
+              <button onClick={() => setCountry([p])}>Show</button>{" "}
+            </div>
+          ))}
+        </div>
+      );
   } else {
     const [Weather, setWeather] = useState([]);
     const URLW = `https://api.openweathermap.org/data/2.5/weather?q=${country[0].capital}&appid=5069c386b14c5622a25d61159d4f9b89`;
@@ -24,16 +27,8 @@ const Content = ({ country, setCountry }) => {
     }, []);
 
     return (
-      <div className=''>
+      <div className=' mt-6 mb-16'>
         {country.map((country, i) => {
-          let element = [];
-          for (const lang in country.languages) {
-            if (
-              country.languages.hasOwnProperty.call(country.languages, lang)
-            ) {
-              element.push(country.languages[lang]);
-            }
-          }
           return (
             <div key={i} >
               <div className="flex justify-between font-karla">
@@ -42,7 +37,6 @@ const Content = ({ country, setCountry }) => {
                   {country.capital}  
                 </p>
               </div>
-              <br/>
               <br/>
               <div className=''>
                 <span className=" text-9xl">
